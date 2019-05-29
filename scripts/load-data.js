@@ -1,4 +1,4 @@
-let names = ["deborah", "desire", "ethan", "glenn", "hills", "joanne", "liz", "thomas", "yonghuey", "zeke", "zhonghao"];
+let namesFileName = "scripts/names.txt";
 const msgDir = "messages/";
 const imgDir = "images/";
 const domParser = new DOMParser();
@@ -42,8 +42,7 @@ function paragraphData(data) {
     return pData;
 }
 
-window.onload = () => {
-    names = names.sort();
+function loadData(names) {
     let promises = [];
     const cardsDom = document.getElementById("cards");
     let messages = {}
@@ -63,5 +62,11 @@ window.onload = () => {
             pData = paragraphData(data);
             messages[name].innerHTML = pData;
         });
+    });
+}
+
+window.onload = () => {
+    $.get(namesFileName, names => {
+        loadData(names.split("\n").filter(val => { return val != ""; }).sort());
     })
 }
